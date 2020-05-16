@@ -7,6 +7,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./windows/main/main.module').then((m) => m.MainModule),
   },
+  {
+    path: 'user-data',
+    loadChildren: () =>
+      import('./windows/user-data/user-data.module').then(
+        (m) => m.UserDataModule
+      ),
+  },
 ]
 
 @NgModule({

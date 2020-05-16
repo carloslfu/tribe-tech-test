@@ -2,18 +2,18 @@ import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { SharedModule } from '../../shared.module'
 
-import { MainComponent } from './main.component'
+import { UserDataComponent } from './user-data.component'
 
 const routes: Routes = [
   {
     path: '',
-    component: MainComponent,
+    component: UserDataComponent,
   },
 ]
 
 @NgModule({
   imports: [RouterModule.forChild(routes), SharedModule],
   exports: [RouterModule],
-  declarations: [MainComponent],
+  declarations: [UserDataComponent],
 })
-export class MainModule {}
+export class UserDataModule {}

@@ -2,6 +2,8 @@
 import { app, BrowserWindow, Menu, ipcMain } from 'electron'
 import windowStateKeeper from 'electron-window-state'
 
+import { createMenuTemplate } from './menuTemplate'
+
 const isProd = app.isPackaged
 
 let mainWindow: BrowserWindow
@@ -25,7 +27,13 @@ function createWindow() {
     },
   })
 
-  const menu = Menu.buildFromTemplate(menuTemplate as any)
+  const menu = Menu.buildFromTemplate(
+    createMenuTemplate({
+      onSaveVideoMsg: () => {
+        openUserDataWindow()
+      },
+    }) as any
+  )
 
   // on MacOs, there is a global menu, and on Windows there is a menu on the mainWindow only
   if (process.platform === 'darwin') {
@@ -55,6 +63,10 @@ function createWindow() {
   ipcMain.on('openUserDataWindow', () => {
     openUserDataWindow()
   })
+
+  ipcMain.on('userDataSubmitted', (data) => {
+    console.log(data)
+  })
 }
 
 app.whenReady().then(createWindow)
@@ -73,58 +85,15 @@ app.on('activate', () => {
   }
 })
 
-const menuTemplate = [
-  {
-    label: 'Menu',
-    submenu: [
-      {
-        label: 'Save Video Message',
-        accelerator: 'CmdOrCtrl+M',
-        click: function () {
-          openUserDataWindow()
-        },
-      },
-      { type: 'separator' },
-      {
-        label: 'Quit',
-        accelerator: 'CmdOrCtrl+Q',
-        click: function () {
-          app.quit()
-        },
-      },
-    ],
-  },
-  {
-    label: 'Edit',
-    submenu: [
-      { label: 'Undo', accelerator: 'CmdOrCtrl+Z', selector: 'undo:' },
-      {
-        label: 'Redo',
-        accelerator: 'Shift+CmdOrCtrl+Z',
-        selector: 'redo:',
-      },
-      { type: 'separator' },
-      { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
-      { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
-      { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
-      {
-        label: 'Select All',
-        accelerator: 'CmdOrCtrl+A',
-        selector: 'selectAll:',
-      },
-    ],
-  },
-]
-
 function openUserDataWindow() {
   const mainWindowBounds = mainWindow.getBounds()
 
   const userDataWindow = new BrowserWindow({
     x: mainWindowBounds.x + 100,
     y: mainWindowBounds.y + 60,
-    minWidth: 400,
+    minWidth: 578,
     minHeight: 400,
-    width: 400,
+    width: 600,
     height: 400,
     show: false,
     webPreferences: {

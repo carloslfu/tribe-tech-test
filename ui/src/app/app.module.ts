@@ -1,20 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule } from '@angular/core'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { AngularFireModule } from '@angular/fire'
 import en from '@angular/common/locales/en'
 import { registerLocaleData } from '@angular/common'
-import { FormsModule } from '@angular/forms'
-import { HttpClientModule } from '@angular/common/http'
-
-import { AngularFireModule } from '@angular/fire'
-import { AngularFireDatabaseModule } from '@angular/fire/database'
-import { AngularFireStorageModule } from '@angular/fire/storage'
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-
-import { NZ_I18N } from 'ng-zorro-antd/i18n'
-import { en_US } from 'ng-zorro-antd/i18n'
 
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
+import { SharedModule } from './shared.module'
 
 registerLocaleData(en)
 
@@ -31,16 +24,12 @@ const firebaseConfig = {
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    SharedModule,
     BrowserModule,
     AppRoutingModule,
-    AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireDatabaseModule,
-    AngularFireStorageModule,
-    FormsModule,
-    HttpClientModule,
     BrowserAnimationsModule,
+    AngularFireModule.initializeApp(firebaseConfig),
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
