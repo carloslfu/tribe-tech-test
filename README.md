@@ -1,5 +1,7 @@
 # Tribe Technical Test Solution
 
+| Warning: this is a repository for a technical test I am doing for a company. It is NOT intended for public use!
+
 The test specs are [here](Test.md), and the roadmap is at the end of this document.
 
 ## Architecture
@@ -39,6 +41,11 @@ I made some additions to improve UX:
 - In order to support MacOSX cut/copy/paste, and more editing commands, those commands are added to the Electron Menu.
 - Keep window state using the `electron-window-state` package.
 - The UI uses [Ant Design components for Angular](https://ng.ant.design/).
+- The Menu "Save Video Message" option is implemented a big button on the main window, because it is the main, and only, user action on that window.
+
+## Notes on security!
+
+This MVP do not have authentication, so all the users can read and write to the Firebase Backend services.
 
 ## Development
 
@@ -48,10 +55,33 @@ TODO.
 
 TODO.
 
+## Releases
+
+Binaries for Windows 64 bits and MacOS 64 bits will be available
+
 # Roadmap
 
 - [x] System design and architecture, tech choices
 - [x] Document architecture
 - [x] Implement initial Electron setup
-- [ ] Implement UI setup
-- [ ] Complete roadmap
+- [x] Implement UI setup
+- [x] Complete roadmap
+- [x] Integrate Firebase on UI
+- [ ] Implement Main window with:
+  - [ ] A Menu with "Save Video Message" and "Quit" options.
+  - [ ] A big "Save Video Message" button.
+- [ ] Implement User Data Window (second window):
+  - [ ] Link "Save Video Message" action (menu and button) to the User Data Window creation.
+  - [ ] Create a form with name and email fields, and a "send" button.
+- [ ] Implement the Record Window (third window):
+  - [ ] Link "Send" button in the User Data Window to the Record Window creation.
+  - [ ] Implement video recording.
+- [ ] Implement video save:
+  - [ ] The user save the video with a "Save" button on the Record Window and it should be uploaded to Firebase Storage.
+  - [ ] When a video is uploaded to firebase storage it metadata should be saved on Firebase Realtime Database. Metadata: user name, user email, video link.
+- [ ] Implement a video list on the Main Window:
+  - [ ] Implement list.
+  - [ ] Implement Firebase Realtime DB subscription.
+  - [ ] Implement download video functionality.
+- [ ] Create Windows 64-bit binary and publish it on Github Deployments
+- [ ] Create MacOS 64-bit binary and publish it on Github Deployments
