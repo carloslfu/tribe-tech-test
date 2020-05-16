@@ -1,0 +1,18 @@
+{
+  "name": "electron-tribe",
+  "version": "0.1.0",
+  "main": "dist/main.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=development parcel build main.ts --target node --no-minify && electron ."
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "electron": "^8.2.3",
+    "parcel-bundler": "^1.12.4",
+    "typescript": "^3.9.2"
+  },
+  "dependencies": {
+    "electron-root-path": "^1.0.16",
+    "electron-window-state": "^5.0.3"
+  }
+}
