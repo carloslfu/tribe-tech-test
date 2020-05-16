@@ -56,6 +56,10 @@ TODO.
 
 TODO.
 
+## UI notes
+
+There is an issue with lazy components that do not load parent dependencies, see [this issue](https://github.com/angular/angular/issues/36193). For this reason each lazy module imports the Ant Design Module.
+
 ## Releases
 
 Binaries for Windows 64 bits and MacOS 64 bits will be available
@@ -68,21 +72,23 @@ Binaries for Windows 64 bits and MacOS 64 bits will be available
 - [x] Implement UI setup
 - [x] Complete roadmap
 - [x] Integrate Firebase on UI
-- [ ] Implement Main window with:
-  - [ ] A Menu with "Save Video Message" and "Quit" options.
-  - [ ] A big "Save Video Message" button.
+- [x] Implement Main window:
+  - [x] Create main window
+  - [x] A Menu with "Save Video Message" and "Quit" options
+  - [x] A "Save Video Message" button
 - [ ] Implement User Data Window (second window):
-  - [ ] Link "Save Video Message" action (menu and button) to the User Data Window creation.
-  - [ ] Create a form with name and email fields, and a "send" button.
+  - [x] Create User Data window
+  - [ ] Link "Save Video Message" action (menu and button) to the User Data Window creation
+  - [ ] Create a form with name and email fields, and a "send" button
 - [ ] Implement the Record Window (third window):
-  - [ ] Link "Send" button in the User Data Window to the Record Window creation.
-  - [ ] Implement video recording.
+  - [ ] Link "Send" button in the User Data Window to the Record Window creation
+  - [ ] Implement video recording
 - [ ] Implement video save:
-  - [ ] The user save the video with a "Save" button on the Record Window and it should be uploaded to Firebase Storage.
-  - [ ] When a video is uploaded to firebase storage it metadata should be saved on Firebase Realtime Database. Metadata: user name, user email, video link.
+  - [ ] The user save the video with a "Save" button on the Record Window and it should be uploaded to Firebase Storage
+  - [ ] When a video is uploaded to firebase storage it metadata should be saved on Firebase Realtime Database. Metadata: user name, user email, video link
 - [ ] Implement a video list on the Main Window:
-  - [ ] Implement list.
-  - [ ] Implement Firebase Realtime DB subscription.
-  - [ ] Implement download video functionality.
+  - [ ] Implement list
+  - [ ] Implement Firebase Realtime DB subscription
+  - [ ] Implement download video functionality
 - [ ] Create Windows 64-bit binary and publish it on Github Deployments
 - [ ] Create MacOS 64-bit binary and publish it on Github Deployments
