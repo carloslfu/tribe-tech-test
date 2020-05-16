@@ -1,9 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser'
 import { NgModule } from '@angular/core'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { AngularFireModule } from '@angular/fire'
 import en from '@angular/common/locales/en'
 import { registerLocaleData } from '@angular/common'
+
+import { AngularFireModule } from '@angular/fire'
+import { AngularFireDatabaseModule } from '@angular/fire/database'
+import { AngularFireStorageModule } from '@angular/fire/storage'
 
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
@@ -28,6 +31,8 @@ const firebaseConfig = {
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    AngularFireDatabaseModule,
+    AngularFireStorageModule,
     AngularFireModule.initializeApp(firebaseConfig),
   ],
   bootstrap: [AppComponent],

@@ -14,6 +14,11 @@ const routes: Routes = [
         (m) => m.UserDataModule
       ),
   },
+  {
+    path: 'record',
+    loadChildren: () =>
+      import('./windows/record/record.module').then((m) => m.RecordModule),
+  },
 ]
 
 @NgModule({

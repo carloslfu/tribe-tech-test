@@ -77,11 +77,12 @@ Binaries for Windows 64 bits and MacOS 64 bits will be available
   - [x] A Menu with "Save Video Message" and "Quit" options
   - [x] A "Save Video Message" button
 - [x] Implement User Data Window (second window):
-  - [x] Create User Data window
+  - [x] Create User Data Window
   - [x] Link "Save Video Message" action (menu and button) to the User Data Window creation
   - [x] Create a form with name and email fields, and a "send" button
 - [ ] Implement the Record Window (third window):
-  - [ ] Link "Send" button in the User Data Window to the Record Window creation
+  - [x] Create Record Window
+  - [x] Link "Send" button in the User Data Window to the Record Window creation
   - [ ] Implement video recording
 - [ ] Implement video save:
   - [ ] The user save the video with a "Save" button on the Record Window and it should be uploaded to Firebase Storage

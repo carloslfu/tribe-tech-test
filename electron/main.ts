@@ -7,6 +7,8 @@ import { createMenuTemplate } from './menuTemplate'
 const isProd = app.isPackaged
 
 let mainWindow: BrowserWindow
+let userDataWindow: BrowserWindow
+let recordWindow: BrowserWindow
 
 function createWindow() {
   let mainWindowState = windowStateKeeper({
@@ -30,7 +32,7 @@ function createWindow() {
   const menu = Menu.buildFromTemplate(
     createMenuTemplate({
       onSaveVideoMsg: () => {
-        openUserDataWindow()
+        createUserDataWindow()
       },
     }) as any
   )
@@ -60,12 +62,20 @@ function createWindow() {
     }
   })
 
-  ipcMain.on('openUserDataWindow', () => {
-    openUserDataWindow()
+  ipcMain.on('createUserDataWindow', () => {
+    createUserDataWindow()
   })
 
-  ipcMain.on('userDataSubmitted', (data) => {
-    console.log(data)
+  let userData: { name: string; email: string }
+
+  ipcMain.on('userDataSubmitted', (_, newUserData) => {
+    userData = newUserData
+    userDataWindow.close()
+    createRecordWindow()
+  })
+
+  ipcMain.on('getUserData', (event) => {
+    event.returnValue = userData
   })
 }
 
@@ -85,10 +95,10 @@ app.on('activate', () => {
   }
 })
 
-function openUserDataWindow() {
+function createUserDataWindow() {
   const mainWindowBounds = mainWindow.getBounds()
 
-  const userDataWindow = new BrowserWindow({
+  userDataWindow = new BrowserWindow({
     x: mainWindowBounds.x + 100,
     y: mainWindowBounds.y + 60,
     minWidth: 578,
@@ -108,5 +118,31 @@ function openUserDataWindow() {
   userDataWindow.once('ready-to-show', () => {
     userDataWindow.show()
     userDataWindow.focus()
+  })
+}
+
+function createRecordWindow() {
+  const mainWindowBounds = mainWindow.getBounds()
+
+  recordWindow = new BrowserWindow({
+    x: mainWindowBounds.x + 100,
+    y: mainWindowBounds.y + 60,
+    minWidth: 578,
+    minHeight: 400,
+    width: 600,
+    height: 400,
+    show: false,
+    webPreferences: {
+      nodeIntegration: true,
+    },
+  })
+
+  recordWindow.setMenu(null)
+
+  recordWindow.loadURL('http://localhost:4200/#/record')
+
+  recordWindow.once('ready-to-show', () => {
+    recordWindow.show()
+    recordWindow.focus()
   })
 }

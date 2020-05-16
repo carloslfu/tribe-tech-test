@@ -15,6 +15,6 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {}
 
   handleSaveVideoClick() {
-    this._ipc.send('openUserDataWindow')
+    this._ipc.send('createUserDataWindow')
   }
 }
