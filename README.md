@@ -35,7 +35,7 @@ Architecture Diagram, made using [asciiflow](http://asciiflow.com/):
 
 I made some additions to improve UX:
 
-- User selection is disabled by default in the UI.
+- User selection is disabled by default on the UI, it is what you expect from a native app.
 - In order to support MacOSX cut/copy/paste, and more editing commands, those commands are added to the Electron Menu.
 - Keep window state using the `electron-window-state` package.
 - The UI uses [Ant Design components for Angular](https://ng.ant.design/).
