@@ -1,1 +1,40 @@
-<p>record works!</p>
+<h1>Record your video</h1>
+
+<video #video></video>
+
+<div class="button-container">
+  <button
+    *ngIf="state === 'initial'"
+    nz-button
+    nzType="primary"
+    (click)="record()"
+  >
+    Record
+  </button>
+  <button *ngIf="state === 'recording'" nz-button (click)="pause()">
+    Pause
+  </button>
+  <button *ngIf="state === 'paused'" nz-button (click)="resume()">
+    Resume
+  </button>
+  <button
+    *ngIf="state === 'recording' || state === 'paused'"
+    nz-button
+    nzType="primary"
+    nzDanger
+    (click)="stop()"
+  >
+    Stop
+  </button>
+  <button
+    *ngIf="state === 'stopped'"
+    nz-button
+    nzType="primary"
+    (click)="save()"
+  >
+    Save
+  </button>
+  <button *ngIf="state === 'stopped'" nz-button (click)="cancel()">
+    Cancel
+  </button>
+</div>
