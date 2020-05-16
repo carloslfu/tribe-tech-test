@@ -1,5 +1,5 @@
 'use strict'
-import { app, BrowserWindow, Menu } from 'electron'
+import { app, BrowserWindow, Menu, ipcMain } from 'electron'
 import windowStateKeeper from 'electron-window-state'
 
 const isProd = app.isPackaged
@@ -20,6 +20,9 @@ function createWindow() {
     width: mainWindowState.width,
     height: mainWindowState.height,
     show: false,
+    webPreferences: {
+      nodeIntegration: true,
+    },
   })
 
   const menu = Menu.buildFromTemplate(menuTemplate as any)
@@ -47,6 +50,10 @@ function createWindow() {
     if (process.platform !== 'darwin') {
       app.quit()
     }
+  })
+
+  ipcMain.on('openUserDataWindow', () => {
+    openUserDataWindow()
   })
 }
 
@@ -120,6 +127,9 @@ function openUserDataWindow() {
     width: 400,
     height: 400,
     show: false,
+    webPreferences: {
+      nodeIntegration: true,
+    },
   })
 
   userDataWindow.setMenu(null)
