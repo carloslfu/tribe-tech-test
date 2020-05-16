@@ -1,4 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core'
+import { AngularFireStorage } from '@angular/fire/storage'
+import { v4 as uuidV4 } from 'uuid'
+import { IpcService } from 'src/app/ipc.service'
 
 // installing @types/dom-mediacapture-record did not worked, TODO: we should investigate
 declare var MediaRecorder: any
@@ -17,7 +20,10 @@ export class RecordComponent implements OnInit {
 
   @ViewChild('video') videoElm: ElementRef<HTMLVideoElement>
 
-  constructor() {}
+  constructor(
+    private _fireStorage: AngularFireStorage,
+    private _ipc: IpcService
+  ) {}
 
   ngOnInit(): void {
     this.initRecord()
@@ -48,8 +54,21 @@ export class RecordComponent implements OnInit {
 
   save() {
     chunksToDataUrl(this.chunks, (dataUrl) => {
-      var file = dataUrlToFile(dataUrl)
-      console.log('upload to server', file)
+      const file = dataUrlToFile(dataUrl)
+      const fileId = uuidV4()
+      this._fireStorage
+        .ref(`videos/${fileId}.webm`)
+        .put(file)
+        .then(() => {
+          this._ipc.send('videoUploaded')
+        })
+        .catch((err) => {
+          alert(
+            'error while uploading the file to the server: ' +
+              JSON.stringify(err)
+          )
+          this.cancel()
+        })
     })
   }
 
