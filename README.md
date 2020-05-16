@@ -1,6 +1,6 @@
 # Tribe Technical Test Solution
 
-The test specs are [here](Test Specs.md), and the roadmap is at the end of this document.
+The test specs are [here](Test.md), and the roadmap is at the end of this document.
 
 ## Architecture
 
