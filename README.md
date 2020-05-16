@@ -85,7 +85,7 @@ Binaries for Windows 64 bits and MacOS 64 bits will be available
   - [x] Link "Send" button in the User Data Window to the Record Window creation
   - [x] Implement video recording
 - [ ] Implement video save:
-  - [ ] The user save the video with a "Save" button on the Record Window and it should be uploaded to Firebase Storage
+  - [x] The user save the video with a "Save" button on the Record Window and it should be uploaded to Firebase Storage
   - [ ] When a video is uploaded to firebase storage it metadata should be saved on Firebase Realtime Database. Metadata: user name, user email, and video link
 - [ ] Implement a video list on the Main Window:
   - [ ] Implement list
