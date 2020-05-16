@@ -39,9 +39,10 @@ I made some additions to improve UX:
 
 - User selection is disabled by default on the UI, it is what you expect from a native app.
 - In order to support MacOSX cut/copy/paste, and more editing commands, those commands are added to the Electron Menu.
-- Keep window state using the `electron-window-state` package.
+- Keep Main Window state using the `electron-window-state` package.
 - The UI uses [Ant Design components for Angular](https://ng.ant.design/).
-- The Menu "Save Video Message" option is implemented a big button on the main window, because it is the main, and only, user action on that window.
+- Show the electron windows only when they are ready. It is implemented by using the Electron BrowserWindow `ready-to-show` event.
+- The Menu "Save Video Message" option is implemented a big button on the main window, because it is the main user action on that window.
 
 ## Notes on security!
 
