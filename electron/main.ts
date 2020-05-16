@@ -1,9 +1,10 @@
 'use strict'
-import { app, BrowserWindow, Menu, shell, clipboard } from 'electron'
-import { platform } from 'os'
+import { app, BrowserWindow, Menu } from 'electron'
 import windowStateKeeper from 'electron-window-state'
 
 const isProd = app.isPackaged
+
+let mainWindow: BrowserWindow
 
 function createWindow() {
   let mainWindowState = windowStateKeeper({
@@ -11,7 +12,7 @@ function createWindow() {
     defaultHeight: 620,
   })
 
-  const win = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     x: mainWindowState.x,
     y: mainWindowState.y,
     minWidth: 600,
@@ -19,76 +20,34 @@ function createWindow() {
     width: mainWindowState.width,
     height: mainWindowState.height,
     show: false,
-    webPreferences: {
-      nodeIntegration: true,
-    },
   })
 
-  if (getPlatform() === 'mac') {
-    Menu.setApplicationMenu(Menu.buildFromTemplate(menuTemplate as any))
+  const menu = Menu.buildFromTemplate(menuTemplate as any)
+
+  // on MacOs, there is a global menu, and on Windows there is a menu on the mainWindow only
+  if (process.platform === 'darwin') {
+    Menu.setApplicationMenu(menu)
   } else {
-    Menu.setApplicationMenu(null)
+    mainWindow.setMenu(menu)
   }
 
-  win.webContents.on('context-menu', (event, props) => {
-    const menuTemplate = []
-
-    if (props.isEditable) {
-      menuTemplate.push(
-        { label: 'Undo', role: 'undo', enabled: props.editFlags.canUndo },
-        { label: 'Redo', role: 'redo', enabled: props.editFlags.canRedo },
-        { type: 'separator' },
-        { label: 'Cut', role: 'cut', enabled: props.editFlags.canCut },
-        { label: 'Copy', role: 'copy', enabled: props.editFlags.canCopy },
-        { label: 'Paste', role: 'paste', enabled: props.editFlags.canPaste },
-        { type: 'separator' },
-        { label: 'Delete', role: 'delete', enabled: props.editFlags.canDelete },
-        {
-          label: 'Select all',
-          role: 'selectall',
-          enabled: props.editFlags.canSelectAll,
-        }
-      )
-    }
-
-    if (props.linkURL) {
-      menuTemplate.push(
-        {
-          label: 'Open link',
-          click() {
-            shell.openExternal(props.linkURL)
-          },
-        },
-        {
-          label: 'Copy link location',
-          click() {
-            clipboard.writeText(props.linkURL)
-          },
-        }
-      )
-    }
-
-    if (menuTemplate.length > 0) {
-      Menu.buildFromTemplate(menuTemplate as any).popup(win as any)
-    }
+  mainWindow.once('ready-to-show', () => {
+    mainWindowState.manage(mainWindow)
+    mainWindow.show()
+    mainWindow.focus()
   })
 
-  win.webContents.on('new-window', function (e, url) {
-    e.preventDefault()
-    shell.openExternal(url)
-  })
-
-  win.once('ready-to-show', () => {
-    mainWindowState.manage(win)
-    win.show()
-    win.focus()
-  })
-
-  win.loadURL('http://localhost:4200')
+  mainWindow.loadURL('http://localhost:4200')
 
   if (!isProd) {
-    win.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
   }
+
+  mainWindow.on('close', () => {
+    if (process.platform !== 'darwin') {
+      app.quit()
+    }
+  })
 }
 
 app.whenReady().then(createWindow)
@@ -107,34 +66,21 @@ app.on('activate', () => {
   }
 })
 
-const getPlatform = () => {
-  switch (platform()) {
-    case 'aix':
-    case 'freebsd':
-    case 'linux':
-    case 'openbsd':
-    case 'android':
-      return 'linux'
-    case 'darwin':
-    case 'sunos':
-      return 'mac'
-    case 'win32':
-      return 'win'
-  }
-}
-
 const menuTemplate = [
   {
-    label: app.name,
+    label: 'Menu',
     submenu: [
       {
-        label: 'About Application',
-        selector: 'orderFrontStandardAboutPanel:',
+        label: 'Save Video Message',
+        accelerator: 'CmdOrCtrl+M',
+        click: function () {
+          openUserDataWindow()
+        },
       },
       { type: 'separator' },
       {
         label: 'Quit',
-        accelerator: 'Command+Q',
+        accelerator: 'CmdOrCtrl+Q',
         click: function () {
           app.quit()
         },
@@ -162,3 +108,26 @@ const menuTemplate = [
     ],
   },
 ]
+
+function openUserDataWindow() {
+  const mainWindowBounds = mainWindow.getBounds()
+
+  const userDataWindow = new BrowserWindow({
+    x: mainWindowBounds.x + 100,
+    y: mainWindowBounds.y + 60,
+    minWidth: 400,
+    minHeight: 400,
+    width: 400,
+    height: 400,
+    show: false,
+  })
+
+  userDataWindow.setMenu(null)
+
+  userDataWindow.loadURL('http://localhost:4200/#/user-data')
+
+  userDataWindow.once('ready-to-show', () => {
+    userDataWindow.show()
+    userDataWindow.focus()
+  })
+}
