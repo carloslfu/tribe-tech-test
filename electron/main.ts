@@ -84,7 +84,7 @@ function createWindow() {
     win.focus()
   })
 
-  win.loadURL('http://localhost:1234')
+  win.loadURL('http://localhost:4200')
 
   if (!isProd) {
     win.webContents.openDevTools()
