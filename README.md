@@ -1,6 +1,6 @@
 # Tribe Technical Test Solution
 
-| Warning: this is a repository for a technical test I am doing for a company. It is NOT intended for public use!
+> :warning: Warning: this is a repository for a technical test I am doing for a company. It is NOT intended for public use!
 
 The test specs are [here](Test.md), and the roadmap is at the end of this document.
 
