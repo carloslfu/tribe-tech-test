@@ -33,7 +33,7 @@ Architecture Diagram, made using [asciiflow](http://asciiflow.com/):
    +------------------------------------+      +-------------------------------+
 ```
 
-## UI/UX aditions
+## UI/UX improvements
 
 I made some additions to improve UX:
 
