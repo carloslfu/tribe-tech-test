@@ -58,12 +58,12 @@ export class RecordComponent implements OnInit {
     chunksToDataUrl(this.chunks, (dataUrl) => {
       const file = dataUrlToFile(dataUrl)
       const videoId = uuidV4()
-      const videoPath = `videos/${videoId}.webm`
+      const path = `videos/${videoId}.webm`
 
       this._fireStorage
-        .ref(videoPath)
+        .ref(path)
         .put(file)
-        .then(() => this.saveVideoMetadata(videoId, videoPath))
+        .then(() => this.saveVideoMetadata(videoId, path))
         .then(() => {
           this._ipc.send('videoUploaded')
         })
@@ -108,7 +108,7 @@ export class RecordComponent implements OnInit {
     }
   }
 
-  async saveVideoMetadata(videoId: string, videoPath: string) {
+  async saveVideoMetadata(videoId: string, path: string) {
     const userData = await this._ipc.invoke('getUserData')
 
     await this._fireDB
@@ -116,7 +116,7 @@ export class RecordComponent implements OnInit {
       .push({
         name: userData.name,
         email: userData.email,
-        videoPath,
+        path,
       })
       .catch((err) => {
         console.log(err)

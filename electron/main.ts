@@ -1,6 +1,7 @@
 'use strict'
 import { app, BrowserWindow, Menu, ipcMain } from 'electron'
 import windowStateKeeper from 'electron-window-state'
+import { download } from 'electron-dl'
 
 import { createMenuTemplate } from './menuTemplate'
 
@@ -81,6 +82,16 @@ function createWindow() {
   ipcMain.on('videoUploaded', () => {
     recordWindow.close()
     mainWindow.webContents.send('videoUploaded')
+  })
+
+  ipcMain.handle('downloadFile', async (event, filename, url) => {
+    try {
+      await download(mainWindow, url, { filename })
+    } catch (err) {
+      console.log(err)
+    }
+
+    return 'success'
   })
 }
 

@@ -3,3 +3,21 @@
 <button nz-button nzType="primary" (click)="handleSaveVideoClick()">
   Save Video Message
 </button>
+
+<div class="video-list">
+  <nz-list nzItemLayout="horizontal" [nzLoading]="!videosList$" nzBordered>
+    <nz-list-header>Saved Videos</nz-list-header>
+    <nz-list-item *ngFor="let video of videosList$ | async">
+      {{ video.name }}, email: {{ video.email }}
+      <button
+        nz-button
+        nzType="primary"
+        nzSize="small"
+        (click)="handleDownloadVideo(video)"
+      >
+        Download
+      </button>
+    </nz-list-item>
+    <nz-list-empty *ngIf="(videosList$ | async)?.length === 0"></nz-list-empty>
+  </nz-list>
+</div>

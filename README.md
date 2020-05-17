@@ -88,9 +88,10 @@ Binaries for Windows 64 bits and MacOS 64 bits will be available
   - [x] The user save the video with a "Save" button on the Record Window and it should be uploaded to Firebase Storage, and close the Record Window
   - [x] When a video is uploaded the Main Window should show a notification message
   - [x] When a video is uploaded to Firebase storage its metadata should be saved on Firebase Realtime Database. Metadata: user name, user email, and video link.
-- [ ] Implement a video list on the Main Window:
-  - [ ] Implement list
-  - [ ] Implement Firebase Realtime DB subscription
-  - [ ] Implement download video functionality
+- [x] Implement a video list on the Main Window:
+  - [x] Implement video list
+  - [x] Implement Firebase Realtime DB subscription
+  - [x] Implement download video functionality
+  - [ ] Implement delete video functionality
 - [ ] Create Windows 64-bit binary and publish it on Github Deployments
 - [ ] Create MacOS 64-bit binary and publish it on Github Deployments
