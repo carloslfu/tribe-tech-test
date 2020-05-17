@@ -110,13 +110,13 @@ export class RecordComponent implements OnInit {
 
   async saveVideoMetadata(videoId: string, videoPath: string) {
     const userData = await this._ipc.invoke('getUserData')
-    debugger
+
     await this._fireDB
       .list('videos')
       .push({
         name: userData.name,
         email: userData.email,
-        videoId,
+        videoPath,
       })
       .catch((err) => {
         console.log(err)
