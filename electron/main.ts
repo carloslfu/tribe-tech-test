@@ -7,6 +7,10 @@ import { createMenuTemplate } from './menuTemplate'
 
 const isProd = app.isPackaged
 
+const baseURL = !isProd
+  ? `file://${process.cwd()}/dist-renderer/index.html`
+  : 'http://localhost:4200'
+
 let mainWindow: BrowserWindow
 let userDataWindow: BrowserWindow
 let recordWindow: BrowserWindow
@@ -27,6 +31,7 @@ function createWindow() {
     show: false,
     webPreferences: {
       nodeIntegration: true,
+      webSecurity: false,
     },
   })
 
@@ -51,7 +56,7 @@ function createWindow() {
     mainWindow.focus()
   })
 
-  mainWindow.loadURL('http://localhost:4200')
+  mainWindow.loadURL(baseURL)
 
   if (!isProd) {
     mainWindow.webContents.openDevTools()
@@ -124,12 +129,13 @@ function createUserDataWindow() {
     show: false,
     webPreferences: {
       nodeIntegration: true,
+      webSecurity: false,
     },
   })
 
   userDataWindow.setMenu(null)
 
-  userDataWindow.loadURL('http://localhost:4200/#/user-data')
+  userDataWindow.loadURL(`${baseURL}/#/user-data`)
 
   userDataWindow.once('ready-to-show', () => {
     userDataWindow.show()
@@ -150,12 +156,13 @@ function createRecordWindow() {
     show: false,
     webPreferences: {
       nodeIntegration: true,
+      webSecurity: false,
     },
   })
 
   recordWindow.setMenu(null)
 
-  recordWindow.loadURL('http://localhost:4200/#/record')
+  recordWindow.loadURL(`${baseURL}/#/record`)
 
   recordWindow.once('ready-to-show', () => {
     recordWindow.show()

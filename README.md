@@ -50,11 +50,15 @@ This MVP do not have authentication, so all the users can read and write to the 
 
 ## Development
 
-TODO.
+- Open a terminal on the `ui/` folder and run: `npm start`
+- Open a terminal on the `electron/` folder and run: `npm start`
 
 ## Production build
 
-TODO.
+- Open a terminal on the `ui/` folder and run: `npm run build`
+- Rename the `ui/dist/ui` folder to `ui/dist/dist-renderer`
+- Copy the `ui/dist/dist-renderer` folder to `electron/dist-renderer`
+- Open a terminal on the `electron/` folder and run: `npm run build`
 
 ## UI notes
 
@@ -93,5 +97,6 @@ Binaries for Windows 64 bits and MacOS 64 bits will be available
   - [x] Implement Firebase Realtime DB subscription
   - [x] Implement download video functionality
   - [x] Implement delete video functionality
-- [ ] Create Windows 64-bit binary and publish it on Github Deployments
+- [x] Configure production build
+- [x] Create Windows 64-bit binary and publish it on Github Deployments
 - [ ] Create MacOS 64-bit binary and publish it on Github Deployments

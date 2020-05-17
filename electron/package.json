@@ -3,11 +3,55 @@
   "version": "0.1.0",
   "main": "dist/main.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=development parcel build main.ts --target node --no-minify && electron ."
+    "start": "cross-env NODE_ENV=development parcel build main.ts --target node --no-minify && electron .",
+    "build": "parcel build main.ts --target node && electron-builder"
+  },
+  "build": {
+    "appId": "tribe-tech-test",
+    "mac": {
+      "category": "public.app-category.video"
+    },
+    "directories": {
+      "output": "binaries"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-renderer/**/*",
+      "package.json"
+    ],
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "NSIS",
+      "icon": ""
+    }
+  },
+  "author": {
+    "name": "Carlos Galarza",
+    "email": "carloslfu@gmail.com"
   },
   "devDependencies": {
     "cross-env": "^7.0.2",
     "electron": "^8.2.3",
+    "electron-builder": "^22.6.0",
     "parcel-bundler": "^1.12.4",
     "typescript": "^3.9.2"
   },
