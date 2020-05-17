@@ -2,13 +2,14 @@
 import { app, BrowserWindow, Menu, ipcMain } from 'electron'
 import windowStateKeeper from 'electron-window-state'
 import { download } from 'electron-dl'
+import * as path from 'path'
 
 import { createMenuTemplate } from './menuTemplate'
 
 const isProd = app.isPackaged
 
-const baseURL = !isProd
-  ? `file://${process.cwd()}/dist-renderer/index.html`
+const baseURL = isProd
+  ? path.join(__dirname, `../dist-renderer/index.html`)
   : 'http://localhost:4200'
 
 let mainWindow: BrowserWindow
@@ -28,10 +29,9 @@ function createWindow() {
     minHeight: 500,
     width: mainWindowState.width,
     height: mainWindowState.height,
-    show: false,
+    show: true,
     webPreferences: {
       nodeIntegration: true,
-      webSecurity: false,
     },
   })
 
@@ -43,7 +43,7 @@ function createWindow() {
     }) as any
   )
 
-  // on MacOs, there is a global menu, and on Windows there is a menu on the mainWindow only
+  // on MacOS, there is a global menu, and on Windows there is a menu on the mainWindow only
   if (process.platform === 'darwin') {
     Menu.setApplicationMenu(menu)
   } else {
@@ -62,7 +62,7 @@ function createWindow() {
     mainWindow.webContents.openDevTools()
   }
 
-  mainWindow.on('close', () => {
+  mainWindow.on('closed', () => {
     if (process.platform !== 'darwin') {
       app.quit()
     }
@@ -129,13 +129,12 @@ function createUserDataWindow() {
     show: false,
     webPreferences: {
       nodeIntegration: true,
-      webSecurity: false,
     },
   })
 
   userDataWindow.setMenu(null)
 
-  userDataWindow.loadURL(`${baseURL}/#/user-data`)
+  userDataWindow.loadURL(`${baseURL}#user-data`)
 
   userDataWindow.once('ready-to-show', () => {
     userDataWindow.show()
@@ -156,13 +155,12 @@ function createRecordWindow() {
     show: false,
     webPreferences: {
       nodeIntegration: true,
-      webSecurity: false,
     },
   })
 
   recordWindow.setMenu(null)
 
-  recordWindow.loadURL(`${baseURL}/#/record`)
+  recordWindow.loadURL(`${baseURL}#record`)
 
   recordWindow.once('ready-to-show', () => {
     recordWindow.show()
