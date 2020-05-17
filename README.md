@@ -2,6 +2,8 @@
 
 > :warning: Warning: this is a repository for a technical test I am doing for a company. It is NOT intended for public use!
 
+![app screenshot](app-screenshot.png)
+
 The test specs are [here](Test.md), and the roadmap is at the end of this document.
 
 ## Architecture
