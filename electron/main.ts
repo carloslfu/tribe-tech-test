@@ -16,7 +16,7 @@ let mainWindow: BrowserWindow
 let userDataWindow: BrowserWindow
 let recordWindow: BrowserWindow
 
-function createWindow() {
+function createMainWindow() {
   let mainWindowState = windowStateKeeper({
     defaultWidth: 650,
     defaultHeight: 560,
@@ -100,7 +100,7 @@ function createWindow() {
   })
 }
 
-app.whenReady().then(createWindow)
+app.whenReady().then(createMainWindow)
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -112,7 +112,7 @@ app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow()
+    createMainWindow()
   }
 })
 
