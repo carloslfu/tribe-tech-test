@@ -3,13 +3,18 @@ import { app, BrowserWindow, Menu, ipcMain } from 'electron'
 import windowStateKeeper from 'electron-window-state'
 import { download } from 'electron-dl'
 import * as path from 'path'
+import * as url from 'url'
 
 import { createMenuTemplate } from './menuTemplate'
 
 const isProd = app.isPackaged
 
 const baseURL = isProd
-  ? path.join(__dirname, `../dist-renderer/index.html`)
+  ? url.format({
+      pathname: path.join(__dirname, `../dist-renderer/index.html`),
+      protocol: 'file:',
+      slashes: true,
+    })
   : 'http://localhost:4200'
 
 let mainWindow: BrowserWindow
