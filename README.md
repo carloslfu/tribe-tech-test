@@ -74,7 +74,7 @@ Binaries for MacOS 64-bits, and Windows 64-bits are available on the Github Rele
 
 The MP4 format of the recorded video is only openable with a browser (Chrome preferred) in some systems, it is possibly because of the file format. This issue is easily fixable, and it will be fixed on future releases.
 
-# Roadmap
+## Roadmap
 
 - [x] System design and architecture, tech choices
 - [x] Document architecture
