@@ -72,37 +72,6 @@ function createMainWindow() {
       app.quit()
     }
   })
-
-  ipcMain.on('createUserDataWindow', () => {
-    createUserDataWindow()
-  })
-
-  let userData: { name: string; email: string }
-
-  ipcMain.on('userDataSubmitted', (_, newUserData) => {
-    userData = newUserData
-    userDataWindow.close()
-    createRecordWindow()
-  })
-
-  ipcMain.handle('getUserData', async () => {
-    return userData
-  })
-
-  ipcMain.on('videoUploaded', () => {
-    recordWindow.close()
-    mainWindow.webContents.send('videoUploaded')
-  })
-
-  ipcMain.handle('downloadFile', async (event, filename, url) => {
-    try {
-      await download(mainWindow, url, { filename })
-    } catch (err) {
-      console.log(err)
-    }
-
-    return 'success'
-  })
 }
 
 app.whenReady().then(createMainWindow)
@@ -172,3 +141,34 @@ function createRecordWindow() {
     recordWindow.focus()
   })
 }
+
+ipcMain.on('createUserDataWindow', () => {
+  createUserDataWindow()
+})
+
+let userData: { name: string; email: string }
+
+ipcMain.on('userDataSubmitted', (_, newUserData) => {
+  userData = newUserData
+  userDataWindow.close()
+  createRecordWindow()
+})
+
+ipcMain.handle('getUserData', async () => {
+  return userData
+})
+
+ipcMain.on('videoUploaded', () => {
+  recordWindow.close()
+  mainWindow.webContents.send('videoUploaded')
+})
+
+ipcMain.handle('downloadFile', async (event, filename, url) => {
+  try {
+    await download(mainWindow, url, { filename })
+  } catch (err) {
+    console.log(err)
+  }
+
+  return 'success'
+})
