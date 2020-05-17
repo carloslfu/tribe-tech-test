@@ -88,7 +88,7 @@ The MP4 format of the recorded video is only openable with a browser in some sys
   - [x] Create User Data Window
   - [x] Link "Save Video Message" action (menu and button) to the User Data Window creation
   - [x] Create a form with name and email fields, and a "send" button
-- [ ] Implement the Record Window (third window):
+- [x] Implement the Record Window (third window):
   - [x] Create Record Window
   - [x] Link "Send" button in the User Data Window to the Record Window creation
   - [x] Implement video recording
