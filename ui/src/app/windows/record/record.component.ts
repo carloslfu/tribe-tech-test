@@ -58,7 +58,7 @@ export class RecordComponent implements OnInit {
     chunksToDataUrl(this.chunks, (dataUrl) => {
       const file = dataUrlToFile(dataUrl)
       const videoId = uuidV4()
-      const path = `videos/${videoId}.webm`
+      const path = `videos/${videoId}.mp4`
 
       this._fireStorage
         .ref(path)
@@ -111,17 +111,12 @@ export class RecordComponent implements OnInit {
   async saveVideoMetadata(videoId: string, path: string) {
     const userData = await this._ipc.invoke('getUserData')
 
-    await this._fireDB
-      .list('videos')
-      .push({
-        id: videoId,
-        name: userData.name,
-        email: userData.email,
-        path,
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    await this._fireDB.object(`videos/${videoId}`).set({
+      id: videoId,
+      name: userData.name,
+      email: userData.email,
+      path,
+    })
   }
 }
 
@@ -131,14 +126,14 @@ function dataUrlToFile(dataUrl) {
 
   for (var i = 0; i < binary.length; i++) data.push(binary.charCodeAt(i))
 
-  return new File([new Uint8Array(data)], 'recorded-video.webm', {
-    type: 'video/webm',
+  return new File([new Uint8Array(data)], 'recorded-video.mp4', {
+    type: 'video/mp4',
   })
 }
 
 function chunksToDataUrl(chunks, callback) {
   var blob = new Blob(chunks, {
-    type: 'video/webm',
+    type: 'video/mp4',
   })
 
   var reader = new FileReader()

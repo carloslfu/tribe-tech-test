@@ -48,7 +48,7 @@ export class MainComponent implements OnInit {
       .getDownloadURL()
       .subscribe((videoURL) => {
         this._ipc
-          .invoke('downloadFile', `${video.name}.webm`, videoURL)
+          .invoke('downloadFile', `${video.name}.mp4`, videoURL)
           .then((result) => {
             if (result === 'success') {
               this._message.success(
@@ -61,7 +61,7 @@ export class MainComponent implements OnInit {
 
   handleDeleteVideo(video: Video) {
     this._fireDB
-      .object(video.id)
+      .object(`videos/${video.id}`)
       .remove()
       .then(() => {
         this._fireStorage.ref(video.path).delete()
