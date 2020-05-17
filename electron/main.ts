@@ -29,7 +29,7 @@ function createWindow() {
     minHeight: 500,
     width: mainWindowState.width,
     height: mainWindowState.height,
-    show: true,
+    show: false,
     webPreferences: {
       nodeIntegration: true,
     },
