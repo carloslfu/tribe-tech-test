@@ -18,6 +18,7 @@ export class RecordComponent implements OnInit {
   state: RecordState = 'initial'
   chunks = []
   mediaRecorder: any
+  recordingUrl = ''
 
   @ViewChild('video') videoElm: ElementRef<HTMLVideoElement>
 
@@ -48,42 +49,47 @@ export class RecordComponent implements OnInit {
 
   stop() {
     this.mediaRecorder.stop()
-    this.mediaRecorder.stream.getTracks().forEach((track) => {
-      track.stop()
-    })
     this.state = 'stopped'
+
+    setTimeout(() => {
+      chunksToDataUrl(this.chunks, (dataUrl) => {
+        this.videoElm.nativeElement.muted = false
+        this.recordingUrl = dataUrl
+        this.videoElm.nativeElement.srcObject = null
+        this.videoElm.nativeElement.src = dataUrl
+        this.videoElm.nativeElement.controls = true
+      })
+    })
   }
 
   save() {
-    chunksToDataUrl(this.chunks, (dataUrl) => {
-      const file = dataUrlToFile(dataUrl)
-      const videoId = uuidV4()
-      const path = `videos/${videoId}.mp4`
+    const file = dataUrlToFile(this.recordingUrl)
+    const videoId = uuidV4()
+    const path = `videos/${videoId}.mp4`
 
-      this._fireStorage
-        .ref(path)
-        .put(file)
-        .then(() => this.saveVideoMetadata(videoId, path))
-        .then(() => {
-          this._ipc.send('videoUploaded')
-        })
-        .catch((err) => {
-          alert(
-            'error while uploading the file to the server: ' +
-              JSON.stringify(err)
-          )
-          this.cancel()
-        })
-    })
+    this._fireStorage
+      .ref(path)
+      .put(file)
+      .then(() => this.saveVideoMetadata(videoId, path))
+      .then(() => {
+        this._ipc.send('videoUploaded')
+      })
+      .catch((err) => {
+        alert(
+          'error while uploading the file to the server: ' + JSON.stringify(err)
+        )
+        this.cancel()
+      })
   }
 
   cancel() {
     this.chunks = []
     this.mediaRecorder = undefined
+    this.state = 'initial'
+    this.initRecord()
   }
 
   initRecord() {
-    this.chunks = []
     if (navigator.mediaDevices) {
       var constraints = { audio: true, video: true }
 
@@ -92,10 +98,10 @@ export class RecordComponent implements OnInit {
         .then((stream) => {
           this.mediaRecorder = new MediaRecorder(stream)
 
+          this.videoElm.nativeElement.muted = true
           this.videoElm.nativeElement.srcObject = stream
           this.videoElm.nativeElement.onloadedmetadata = (e) => {
             this.videoElm.nativeElement.play()
-            this.videoElm.nativeElement.muted = true
           }
 
           this.mediaRecorder.ondataavailable = (e) => {
