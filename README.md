@@ -66,7 +66,11 @@ There is an issue with lazy components that do not load parent dependencies, see
 
 ## Releases
 
-Binaries for Windows 64 bits and MacOS 64 bits will be available
+Binaries for Windows 64 bits and MacOS 64 bits are available on the Github Releases.
+
+## Know issues
+
+The MP4 format of the recorded video is only openable with a browser in some systems, it is possibly because of the file format. This issue is easily fixable, and it will be fixed on future releases.
 
 # Roadmap
 
@@ -99,4 +103,4 @@ Binaries for Windows 64 bits and MacOS 64 bits will be available
   - [x] Implement delete video functionality
 - [x] Configure production build
 - [x] Create Windows 64-bit binary and publish it on Github Deployments
-- [ ] Create MacOS 64-bit binary and publish it on Github Deployments
+- [x] Create MacOS 64-bit binary and publish it on Github Deployments
