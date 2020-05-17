@@ -74,8 +74,13 @@ function createWindow() {
     createRecordWindow()
   })
 
-  ipcMain.on('getUserData', (event) => {
-    event.returnValue = userData
+  ipcMain.handle('getUserData', async () => {
+    return userData
+  })
+
+  ipcMain.on('videoUploaded', () => {
+    recordWindow.close()
+    mainWindow.webContents.send('videoUploaded')
   })
 }
 
@@ -128,9 +133,9 @@ function createRecordWindow() {
     x: mainWindowBounds.x + 100,
     y: mainWindowBounds.y + 60,
     minWidth: 578,
-    minHeight: 400,
+    minHeight: 500,
     width: 600,
-    height: 400,
+    height: 500,
     show: false,
     webPreferences: {
       nodeIntegration: true,

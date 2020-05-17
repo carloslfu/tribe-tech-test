@@ -32,4 +32,11 @@ export class IpcService {
     }
     this._ipc.send(channel, ...args)
   }
+
+  public invoke(channel: string, ...args): Promise<any> {
+    if (!this._ipc) {
+      return
+    }
+    return this._ipc.invoke(channel, ...args)
+  }
 }

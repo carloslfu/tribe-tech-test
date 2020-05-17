@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core'
 import { AngularFireStorage } from '@angular/fire/storage'
+import { AngularFireDatabase } from '@angular/fire/database'
 import { v4 as uuidV4 } from 'uuid'
 import { IpcService } from 'src/app/ipc.service'
 
@@ -22,6 +23,7 @@ export class RecordComponent implements OnInit {
 
   constructor(
     private _fireStorage: AngularFireStorage,
+    private _fireDB: AngularFireDatabase,
     private _ipc: IpcService
   ) {}
 
@@ -55,10 +57,13 @@ export class RecordComponent implements OnInit {
   save() {
     chunksToDataUrl(this.chunks, (dataUrl) => {
       const file = dataUrlToFile(dataUrl)
-      const fileId = uuidV4()
+      const videoId = uuidV4()
+      const videoPath = `videos/${videoId}.webm`
+
       this._fireStorage
-        .ref(`videos/${fileId}.webm`)
+        .ref(videoPath)
         .put(file)
+        .then(() => this.saveVideoMetadata(videoId, videoPath))
         .then(() => {
           this._ipc.send('videoUploaded')
         })
@@ -101,6 +106,21 @@ export class RecordComponent implements OnInit {
           console.log('The following error occurred: ' + err)
         })
     }
+  }
+
+  async saveVideoMetadata(videoId: string, videoPath: string) {
+    const userData = await this._ipc.invoke('getUserData')
+    debugger
+    await this._fireDB
+      .list('videos')
+      .push({
+        name: userData.name,
+        email: userData.email,
+        videoId,
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 }
 
