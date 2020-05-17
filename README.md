@@ -66,7 +66,7 @@ There is an issue with lazy components that do not load parent dependencies, see
 
 ## Releases
 
-Binaries for Windows 64 bits and MacOS 64 bits are available on the Github Releases.
+Binaries for MacOS 64-bits, and Windows 64-bits are available on the Github Releases page.
 
 ## Know issues
 
