@@ -70,7 +70,7 @@ There is an issue with lazy components that do not load parent dependencies, see
 
 Binaries for MacOS 64-bits, and Windows 64-bits are available on the Github Releases page.
 
-## Know issues
+## Known issues
 
 The MP4 format of the recorded video is only openable with a browser (Chrome preferred) in some systems, it is possibly because of the file format. This issue is easily fixable, and it will be fixed on future releases.
 
