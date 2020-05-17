@@ -9,6 +9,7 @@ const electron = (window as any).require('electron')
 const ipc = electron.ipcRenderer
 
 interface Video {
+  id: string
   name: string
   email: string
   path: string
@@ -55,6 +56,15 @@ export class MainComponent implements OnInit {
               )
             }
           })
+      })
+  }
+
+  handleDeleteVideo(video: Video) {
+    this._fireDB
+      .object(video.id)
+      .remove()
+      .then(() => {
+        this._fireStorage.ref(video.path).delete()
       })
   }
 }

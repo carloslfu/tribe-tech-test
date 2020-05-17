@@ -4,6 +4,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzMessageModule } from 'ng-zorro-antd/message'
 import { NzListModule } from 'ng-zorro-antd/list'
+import { NzIconModule } from 'ng-zorro-antd/icon'
 
 @NgModule({
   exports: [
@@ -12,6 +13,7 @@ import { NzListModule } from 'ng-zorro-antd/list'
     NzFormModule,
     NzMessageModule,
     NzListModule,
+    NzIconModule,
   ],
 })
 export class AntdModule {}

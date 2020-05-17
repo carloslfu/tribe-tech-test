@@ -92,6 +92,6 @@ Binaries for Windows 64 bits and MacOS 64 bits will be available
   - [x] Implement video list
   - [x] Implement Firebase Realtime DB subscription
   - [x] Implement download video functionality
-  - [ ] Implement delete video functionality
+  - [x] Implement delete video functionality
 - [ ] Create Windows 64-bit binary and publish it on Github Deployments
 - [ ] Create MacOS 64-bit binary and publish it on Github Deployments

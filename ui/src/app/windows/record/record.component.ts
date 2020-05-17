@@ -114,6 +114,7 @@ export class RecordComponent implements OnInit {
     await this._fireDB
       .list('videos')
       .push({
+        id: videoId,
         name: userData.name,
         email: userData.email,
         path,
