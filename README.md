@@ -45,6 +45,7 @@ I made some additions to improve UX:
 - The UI uses [Ant Design components for Angular](https://ng.ant.design/).
 - Show the Electron windows only when they are ready. It is implemented by using the Electron BrowserWindow `ready-to-show` event.
 - The Menu "Save Video Message" option is implemented a big button on the main window, because it is the main user action on that window.
+- Video recording preview and cancel functionality.
 
 ## Notes on security!
 
