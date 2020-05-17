@@ -17,9 +17,9 @@ const baseURL = isProd
     })
   : 'http://localhost:4200'
 
-let mainWindow: BrowserWindow
-let userDataWindow: BrowserWindow
-let recordWindow: BrowserWindow
+let mainWindow: BrowserWindow | undefined
+let userDataWindow: BrowserWindow | undefined
+let recordWindow: BrowserWindow | undefined
 
 function createMainWindow() {
   let mainWindowState = windowStateKeeper({
@@ -43,6 +43,9 @@ function createMainWindow() {
   const menu = Menu.buildFromTemplate(
     createMenuTemplate({
       onSaveVideoMsg: () => {
+        if (mainWindow) {
+          createMainWindow()
+        }
         createUserDataWindow()
       },
     }) as any
@@ -56,9 +59,11 @@ function createMainWindow() {
   }
 
   mainWindow.once('ready-to-show', () => {
-    mainWindowState.manage(mainWindow)
-    mainWindow.show()
-    mainWindow.focus()
+    if (mainWindow) {
+      mainWindowState.manage(mainWindow)
+      mainWindow.show()
+      mainWindow.focus()
+    }
   })
 
   mainWindow.loadURL(baseURL)
@@ -68,7 +73,14 @@ function createMainWindow() {
   }
 
   mainWindow.on('closed', () => {
-    if (process.platform !== 'darwin') {
+    if (process.platform === 'darwin') {
+      if (userDataWindow) {
+        userDataWindow.close()
+      }
+      if (recordWindow) {
+        recordWindow.close()
+      }
+    } else {
       app.quit()
     }
   })
@@ -91,7 +103,7 @@ app.on('activate', () => {
 })
 
 function createUserDataWindow() {
-  const mainWindowBounds = mainWindow.getBounds()
+  const mainWindowBounds = mainWindow!.getBounds()
 
   userDataWindow = new BrowserWindow({
     x: mainWindowBounds.x + 100,
@@ -111,13 +123,19 @@ function createUserDataWindow() {
   userDataWindow.loadURL(`${baseURL}#user-data`)
 
   userDataWindow.once('ready-to-show', () => {
-    userDataWindow.show()
-    userDataWindow.focus()
+    if (userDataWindow) {
+      userDataWindow.show()
+      userDataWindow.focus()
+    }
+  })
+
+  userDataWindow.on('closed', () => {
+    userDataWindow = undefined
   })
 }
 
 function createRecordWindow() {
-  const mainWindowBounds = mainWindow.getBounds()
+  const mainWindowBounds = mainWindow!.getBounds()
 
   recordWindow = new BrowserWindow({
     x: mainWindowBounds.x + 100,
@@ -137,8 +155,14 @@ function createRecordWindow() {
   recordWindow.loadURL(`${baseURL}#record`)
 
   recordWindow.once('ready-to-show', () => {
-    recordWindow.show()
-    recordWindow.focus()
+    if (recordWindow) {
+      recordWindow.show()
+      recordWindow.focus()
+    }
+  })
+
+  recordWindow.on('closed', () => {
+    recordWindow = undefined
   })
 }
 
@@ -150,7 +174,9 @@ let userData: { name: string; email: string }
 
 ipcMain.on('userDataSubmitted', (_, newUserData) => {
   userData = newUserData
-  userDataWindow.close()
+  if (userDataWindow) {
+    userDataWindow.close()
+  }
   createRecordWindow()
 })
 
@@ -159,15 +185,23 @@ ipcMain.handle('getUserData', async () => {
 })
 
 ipcMain.on('videoUploaded', () => {
-  recordWindow.close()
-  mainWindow.webContents.send('videoUploaded')
+  if (recordWindow) {
+    recordWindow.close()
+  }
+  if (mainWindow) {
+    mainWindow.webContents.send('videoUploaded')
+  }
 })
 
 ipcMain.handle('downloadFile', async (event, filename, url) => {
+  if (!mainWindow) {
+    return
+  }
   try {
     await download(mainWindow, url, { filename })
   } catch (err) {
     console.log(err)
+    return
   }
 
   return 'success'
